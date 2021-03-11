@@ -1,0 +1,1 @@
+conda create --name django_tutorial_env python=3.7
