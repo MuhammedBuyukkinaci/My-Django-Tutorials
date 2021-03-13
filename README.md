@@ -196,7 +196,53 @@ tutorial_published = models.DateTimeField("date published",default = timezone.no
 
     - Refresh the admin page and add a new tutorial
 
-22)
+## Views and Templates
+
+22) Change return part of main/views.py to the code below. *tutorials* is a variable which is ready to be called in main/templates/main/home.html :
+
+```python
+
+# Former code:
+def homepage(request):
+    return HttpResponse("This is a <strong> NEW </strong> tutorial")
+
+# New code:
+from .models import Tutorial
+def homepage(request):    
+    return render( request = request, 
+        template_name = "main/home.html", 
+        context = {"tutorials": Tutorial.objects.all} )
+
+```
+
+23) Create 2 folders whose directories are main/templates and main/templates/main. Put your relevant html files under main/templates/main directory. Fill html files using materialize.css framework and JS.
+
+## Styling with CSS
+
+24) Materialize is a framework to deal with CSS
+
+25) Copy the code below to an html file to usee materialize css
+
+```html
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+```
+
+26) extends and include properties of Django correspond to Layout in ASP.NET Core. extends is like _Layout.cshtml file.
+
+27) Copy main/templates/main/home.html and name it as *header.html*. *header.html* includes the components in html which is common among many html files. It reduces the code we write as we did in ASP.NET Core. You should remove all components which exist in *header.html* from *home.html*.
+
+28) Create a folder of main/static/main/css and put your css files in this folder. 
+
+
+
+
+
+
 
 
 
