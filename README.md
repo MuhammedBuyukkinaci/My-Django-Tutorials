@@ -232,11 +232,111 @@ def homepage(request):
             
 ```
 
-26) extends and include properties of Django correspond to Layout in ASP.NET Core. extends is like _Layout.cshtml file.
+26) extends and include properties of Django correspond to Layout in ASP.NET Core. extends is like _Layout.cshtml file. An extentds usage is below in main/templates/main/home.html like this in the beginning of HTML file: 
+
+```html
+{% extends "main/header.html" %}
+```
 
 27) Copy main/templates/main/home.html and name it as *header.html*. *header.html* includes the components in html which is common among many html files. It reduces the code we write as we did in ASP.NET Core. You should remove all components which exist in *header.html* from *home.html*.
 
 28) Create a folder of main/static/main/css and put your css files in this folder. 
+
+## User Registration
+
+29) To look at user models, prompt up an interactive shell
+
+```python
+from django.contrib.auth.models import User
+dir(User)
+```
+
+30) Copy *home.html* and name it as *register.html*.
+
+31) In Django, forms are based on Django, not based on HTML.
+
+32) Add the following lines to *main/views.py* and add *path("/register", views.register, name = "register"),* to *urlpatterns* list in *main/urls.py* to be activated. The below *register* function is a GET method and the client only GETs the information in the page. However, in order to POST a submit,
+
+```python
+# redirect means directing the user to a page.
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+
+def register(request):
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect("main:homepage")
+        else:
+            for msg in form.error_messages:
+                print(form.error_messages[msg])
+
+    form = UserCreationForm
+    return render(request,
+                template_name = "main/register.html",
+                context={"form": form})
+
+```
+
+33) To use a variable which was sent from a views.py file to an html file, the sent variable should be double-curly-paranthesized like this {{VARIABLE_SENT_TO_HTML}} like {{form}} or {{tutorials}}
+
+34) {{form.as_p}}, {{form.as_ul}} and {{form.as_table}} can be used in register.html instead of {{form}} to have a better UX.
+
+## Messages and Includes
+
+35) After registering, we should pop up something like "new account created". TO do this, add the following lines to  **main/views.py**
+
+```python
+from django.contrib import messages
+
+def register(request):
+    username = form.cleaned_data.get('username')
+    messages.success(request,"New Account Created {}".format(username))
+
+```
+
+36) To add pop-up messages, we added the below code to messages.html.
+
+```html
+{% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success'%}
+                <script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:2000});</script>
+            {% elif message.tags == 'info'%}
+                <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:2000});</script>
+            {% elif message.tags == 'warning'%}
+                <script>M.toast({html: "{{message}}", classes: 'orange rounded', displayLength:10000});</script>
+            {% elif message.tags == 'error'%}
+                <script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+            {% endif %}
+        {% endfor %}
+{% endif %}
+```
+
+37) **includes** is a property similar to Partial View property of ASP.NET Core. It only contains a partial html code and it was called by a different HTML file. To use **includes**, create a folder named includes in main/templates/main/ and put your HTML file (*navbar.html*) in it. Put the navbar content written in header.html to *navbar.html*. Then, call the content of *navbar.html* file in *header.html* via
+
+```html
+{% include "main/includes/navbar.html" %}
+```
+
+## Logout && Login
+
+38) urls point to views.py and views.py points to templates.
+
+39) `from django.contrib.auth.forms import UserCreationForm` is used for registry operations and `from django.contrib.auth.forms import AuthenticationForm` is used for log-in operations in *views.py*.
+
+40) For login and logut operations, look at login_request and logout request functions in *views.py*
+
+41) Copy *main/views.py* and rename it as *forms.py* to create a custom form instead of UserCreationForm in *views.py* . 
+
+
+
+
+
 
 
 

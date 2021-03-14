@@ -1,0 +1,18 @@
+<!-- The code below means header.html will be used 
+as Layout in this html file -->
+{% extends "main/header.html" %}
+
+
+{% block content%}
+
+    <form method = "POST">
+        <!-- crsf = cross side request forgery -->
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn" style="background-color:yellow; color: blue;" type="submit">register</button>
+    </form>
+
+    If you have already an account, <a href="/login"><b>Login</b></a> instead 
+
+{% endblock %}
+
