@@ -373,9 +373,13 @@ path("<single_slug>",views.single_slug,name="single_slug"),
 
 52) Create category.html via copying categories.html and change its content by copying from [here](https://pythonprogramming.net/working-foreign-keys-django-tutorial/).
 
-53) In main/models.py, the return of def *__str__(self)* is used to bind different models. Its return value is the attribute to bind it to outher tables(models)
+53) In *main/models.py*, the return of def *__str__(self)* is used to bind different models. Its return value is the attribute to bind it to other tables(models)
 
-54) In main/views.py, TutorialSeries has a Foreign Key (FK) on its tutorial_category attribute. This FK makes TutorialSeries access to TutorialCategory and merge with TutorialCategory. category_slug is an attribute of TutorialCategory. The category_slug which is equal to single_slug is filtered on the below code.
+54) Fill single_slug function in *main/views.py*.
+
+55) In main/views.py, TutorialSeries has a Foreign Key (FK) on its tutorial_category attribute. This FK makes TutorialSeries access to TutorialCategory and merge with TutorialCategory. category_slug is an attribute of TutorialCategory. The category_slug which is equal to single_slug is filtered on the below code.
+
+
 
 ```python
 #TutorialSeries has a FK on tutorial_category attribute, which maps to TutorialCategory's category_slug attribute
@@ -384,10 +388,19 @@ path("<single_slug>",views.single_slug,name="single_slug"),
 matching_series = TutorialSeries.objects.filter(tutorial_category__category_slug=single_slug)
 ```
 
+## Dynamic Sidebar
 
+56) Tutorial.objects.filter return list and Tutorial.objects.get a single object.
 
+57) Create tutorial.html in main/templates/main/
 
+58) In HTML files for Django, forloop.counter0 start from 1, not from 0.
 
+59) The below code in header.html is used to activate JS properties of Materialize CSS.
+
+```html
+<script>M.AutoInit();</script>
+```
 
 
 

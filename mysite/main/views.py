@@ -17,9 +17,6 @@ def single_slug(request, single_slug):
     print(single_slug)
     categories = [c.category_slug for c in TutorialCategory.objects.all()]
     if single_slug in categories:
-        #TutorialSeries has a FK on tutorial_category attribute, which maps to TutorialCategory's category_slug attribute
-        # tutorial_category is FK of TutorialSeries
-        # category_slug is the column linked via FK on TutorialCategory table(model) 
         matching_series = TutorialSeries.objects.filter(tutorial_category__category_slug=single_slug)
         print(matching_series.all())
         series_urls ={}
@@ -34,7 +31,17 @@ def single_slug(request, single_slug):
     
     tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
     if single_slug in tutorials:
-        return HttpResponse("{} is a tutorial !!".format(single_slug))
+        this_tutorial = Tutorial.objects.get(tutorial_slug=single_slug)
+        tutorial_from_series = Tutorial.objects.filter(tutorial_series__tutorial_series = this_tutorial.tutorial_series ).order_by("tutorial_published")
+
+        this_tutorial_idx = list(tutorial_from_series).index(this_tutorial)
+
+        return render(request,"main/tutorial.html",{"tutorial":this_tutorial,\
+            "sidebar":tutorial_from_series,\
+                "this_tutorial_idx":this_tutorial_idx})
+
+
+        #return HttpResponse("{} is a tutorial !!".format(single_slug))
     
     return HttpResponse("{} doesn't correspond to any thing.".format(single_slug))
 
