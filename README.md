@@ -331,7 +331,60 @@ def register(request):
 
 40) For login and logut operations, look at login_request and logout request functions in *views.py*
 
-41) Copy *main/views.py* and rename it as *forms.py* to create a custom form instead of UserCreationForm in *views.py* . 
+41) Copy *main/views.py* and rename it as *forms.py* to create a custom form instead of UserCreationForm in *main/views.py* . 
+
+## Linking models with foreign keys
+
+42) The purpose of foreign key is to bind DB tables which are related to each other.
+
+43) Create 2 new models named as TutorialCategory and TutorialSeries in *main/models.py* and then makemigrations and migrate.
+
+44) Add these 2 lines to Tutorial class in *main/models.py*.
+
+```python
+tutorial_series = models.ForeignKey(TutorialSeries,default=1,verbose_name="Series",on_delete = models.SET_DEFAULT)
+tutorial_slug = models.CharField(max_length=200,default=1)
+```
+
+45)  Add 2 attributes to admin.py via this code: 
+
+```python
+("URL",{"fields":["tutorial_slug"]}),
+("Series",{"fields":["tutorial_series"]}),
+```
+
+46) Go to Add Tutorial page via and then add Series and Categories and Tutorials on *http://127.0.0.1:8000/admin*
+
+## Working with Foreign Keys
+
+47) Contact & Registration pages are usually single-slug.
+
+48) We should first determine whether it(uRL) is category or specific tutorial.
+
+49) Category maps to Series. Series map to Tutorials.
+
+50) Move to *main/views.py*. Add single_slug method and update homepage function by looping over categories rather than tutorials on main/templates/main/categories.html.
+
+51) Add this line to main/urls.py. *"<single_slug>"* is a variable passed to views.single_slug
+
+```python
+path("<single_slug>",views.single_slug,name="single_slug"),
+```
+
+52) Create category.html via copying categories.html and change its content by copying from [here](https://pythonprogramming.net/working-foreign-keys-django-tutorial/).
+
+53) In main/models.py, the return of def *__str__(self)* is used to bind different models. Its return value is the attribute to bind it to outher tables(models)
+
+54) In main/views.py, TutorialSeries has a Foreign Key (FK) on its tutorial_category attribute. This FK makes TutorialSeries access to TutorialCategory and merge with TutorialCategory. category_slug is an attribute of TutorialCategory. The category_slug which is equal to single_slug is filtered on the below code.
+
+```python
+#TutorialSeries has a FK on tutorial_category attribute, which maps to TutorialCategory's category_slug attribute
+# tutorial_category is FK of TutorialSeries
+# category_slug is the column linked via FK on TutorialCategory table(model) 
+matching_series = TutorialSeries.objects.filter(tutorial_category__category_slug=single_slug)
+```
+
+
 
 
 
