@@ -402,6 +402,84 @@ matching_series = TutorialSeries.objects.filter(tutorial_category__category_slug
 <script>M.AutoInit();</script>
 ```
 
+## Deploying Django to a server
+
+60) linode.com/sentdex to use linode.
+
+61) Linode is a VPS con linode.com.
+
+62) Select a StackScript
+
+63) Install pip for python3 via on the VPS. WE have python3 on Ubuntu 18.04 server and pip isn't installed for python3 by default.
+
+```
+apt-get install -y python3-pip
+python3 -m pip install --upgrade pip
+```
+
+64) Install django, make a directory to host project, move to that folder and create a mysite project. Open up vim to change mysite/mysite/settings.py and change DEBUG=True to DEBUG=False.
+
+```
+python3 -m pip install django django-tinymce4-lite
+mkdir /var/www
+cd /var/www
+django-admin startproject mysite
+cd mysite
+```
+
+65) Assigning value to ALLOWED_HOSTS = ['REVERSE_DNS_OBTAINED_FROM_LINODE'] in mysite/mysite/settings.py . REVERSE_DNS_OBTAINED_FROM_LINODE
+is a value obtained from Networking title of VPS. REVERSE_DNS_OBTAINED_FROM_LINODE is a temporary domain name.
+
+![REVERSE_DNS_OBTAINED_FROM_LINODE](https://github.com/MuhammedBuyukkinaci/My-Django-Tutorials/blob/master/img/01_reverse_DNS.png)
+
+66) If we want to use a domain name like muhammedbuyukkinaci.com on a registrar, point that domain name on the registrar to host's(linode here) nameservers. On linode, point that name to a specific linode(our VPS). That linode will point based on the domain name.
+
+67) Create a simple app to check if it is running.
+
+```shell
+python3 manage.py startapp it_works
+```
+
+68) Configure mysite/urls.py , it_works/urls.py and it_works/views.py
+
+
+69) After configuring Django, we need a web server to communicate with django. Web server is an intermediary between django and and our VPS. Install apache2 and configure it.
+
+70) Take a look at deployment checklist of Django docs. Don't publish SECRET_KEY in mysite/çysite/settings.py to the public.
+
+71) In production, we have to deal with static by adding some commands like below into mysite/mysite/settings.py in order to run without a problem.
+
+```
+STATIC_ROOT = '/var/www/mysite/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/mysite/media/'
+```
+
+72) Then run the command below to overcome 'static' issue
+
+```python
+python3 manage.py collectstatic
+```
+
+73) Remove slashes in the end of urlspatterns in mysite/main/urls.py. It should be like this:
+
+```
+urlpatterns = [
+    path("", views.homepage, name="homepage"),
+    path("register", views.register, name="register"),
+    path("logout", views.logout_request, name="logout"),
+    path("login", views.login_request, name="login"),
+    path("<single_slug>", views.single_slug, name="single_slug"),
+]
+
+```
+
+74) Change ownership of mysite/ and mysite/db.sqlite3 via these commands:
+
+```
+chown www-data mysite/
+chown www-data mysite/db.sqlite3
+```
 
 
 
