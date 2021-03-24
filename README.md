@@ -541,6 +541,63 @@ DATABASES = {
 }
 ```
 
+83) Change TIME_ZONE on djangoproject/settings.py to 'Turkey'
+
+84) To migrate apps which come with Django
+
+```shell
+python manage.py migrate
+```
+
+85) Add models to polls/models.py
+
+86) To activate models added above, add 'polls.apps.PollsConfig' to INSTALLED_APPS list in djangoproject/settings.py
+
+87) To tell Django that we made some changes to our models
+
+```
+python manage.py makemigrations polls
+```
+
+88) To take a look at an SQL migration
+
+```
+python manage.py sqlmigrate polls 0001
+```
+
+89) To create tables in Database, use migrate command
+
+```
+python manage.py migrate
+```
+
+90) It’s important to add __str__() methods to your models.
+
+91) To open up an interactive shell
+
+```
+python manage.py shell
+```
+
+92) Create a superuser using
+
+```
+python manage.py createsuperuser
+```
+
+93) To enable the admin to add question on admin console, add the following 2 lines to polls/admin.py
+
+```
+from .models import Question
+
+admin.site.register(Question)
+```
+
+
+
+
+
+
 
 
 
