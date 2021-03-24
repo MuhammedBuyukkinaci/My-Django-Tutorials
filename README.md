@@ -430,7 +430,7 @@ cd mysite
 65) Assigning value to ALLOWED_HOSTS = ['REVERSE_DNS_OBTAINED_FROM_LINODE'] in mysite/mysite/settings.py . REVERSE_DNS_OBTAINED_FROM_LINODE
 is a value obtained from Networking title of VPS. REVERSE_DNS_OBTAINED_FROM_LINODE is a temporary domain name.
 
-![REVERSE_DNS_OBTAINED_FROM_LINODE](https://github.com/MuhammedBuyukkinaci/My-Django-Tutorials/blob/master/img/01_reverse_DNS.png)
+![REVERSE_DNS_OBTAINED_FROM_LINODE](https://github.com/MuhammedBuyukkinaci/My-Django-Tutorials/blob/main/img/01_reverse_DNS.png)
 
 66) If we want to use a domain name like muhammedbuyukkinaci.com on a registrar, point that domain name on the registrar to host's(linode here) nameservers. On linode, point that name to a specific linode(our VPS). That linode will point based on the domain name.
 
@@ -481,6 +481,65 @@ chown www-data mysite/
 chown www-data mysite/db.sqlite3
 ```
 
+## New Notes
+
+75) The return value of a class inherited from models.Model is the return value of __str__ method.
+
+```python
+from django.db import models
+
+class Reporter(models.Model):
+    full_name = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.full_name
+
+```
+
+
+```python
+from news.models import Article, Reporter
+r = Reporter(full_name='John Smith')
+r.save()
+print(Reporter.objects.all())
+#outputs:
+#<QuerySet [<Reporter: John Smith>]>
+```
+
+76) When we run our project via ```python manage.py runserver```, we created the Django development server at http://127.0.0.1:8000/.
+
+77) To run the project on a sepecific port 
+
+```
+python manage.py runserver 8080
+```
+
+78) mysite/__init__.py is an empty file that tells Python that this directory(mysite) should be considered a Python package.
+
+79) The include() function allows referencing other URLconfs (main/urls.pys) in mysite/urls.py
+
+80) To deal with database configurations, open up mysite/settings.py and change the settings.
+
+81) Install psycopg2 package via
+
+```shell
+pip install psycopg2
+```
+
+82) Update djangoproject/djangoproject/settings.py by changing DATABASES dictionary to the below code
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+```
 
 
 
