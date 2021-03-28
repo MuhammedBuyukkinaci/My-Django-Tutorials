@@ -524,6 +524,7 @@ python manage.py runserver 8080
 
 ```shell
 pip install psycopg2
+pip install psycopg2-binary
 ```
 
 82) Update djangoproject/djangoproject/settings.py by changing DATABASES dictionary to the below code
@@ -587,11 +588,42 @@ python manage.py createsuperuser
 
 93) To enable the admin to add question on admin console, add the following 2 lines to polls/admin.py
 
-```
+```python
 from .models import Question
-
 admin.site.register(Question)
 ```
+
+94) The default *ROOT_URLCONF* setting is depicted in djangoproject/djangoproject/settings.py
+
+95) Update polls/views.py and and polls/urls.py
+
+96) Using angle brackets “captures” part of the URL and sends it as a keyword argument to the view function like this in polls/urls.py:
+
+```python
+path('<int:question_id>/results/', views.results, name='results'),
+```
+
+97) Each view is responsible for doing one of two things: returning an HttpResponse object containing the content for the requested page, or raising an exception such as Http404. The rest is up to you.
+
+98) Use `from django.shortcuts.get_object_or_404` in polls/views.py
+
+99) Change `<li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>` to `<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>` in polls/index.html to get rid of hardcoded approach.
+
+100) Add something like the following line to polls/urls.py for all of your apps because it would make your jobs easier while dealing wtih templates and urls.
+
+```
+app_name = 'polls'
+```
+
+101) You should always return an HttpResponseRedirect after successfully dealing with POST data.
+
+102) Race condition is a special situation where 2 people update the same information in the DB simoultaneously.
+
+103)
+
+
+
+
 
 
 
