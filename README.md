@@ -679,7 +679,18 @@ reverse(views.archive)
 
     - A separate TestClass for each model or view
     - A separate test method for each set of conditions you want to test
-    - test method names that describe their function
+    - Test method names that describe their function
+
+## Static Files
+
+114) In Django, images, JS and CSS refer to "static files"
+
+115)  `django.contrib.staticfiles` should be used in bigger projects. It collects tatic files into a a single location.
+
+116) static files should be located in *app_name/static/*. Django will look for static files there. In this app, create a folder named static under polls and put polls folder once again. Its directory should be something like this *polls/static/polls*:
+
+117)
+
 
 
 
