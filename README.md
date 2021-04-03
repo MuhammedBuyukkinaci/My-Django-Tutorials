@@ -619,10 +619,67 @@ app_name = 'polls'
 
 102) Race condition is a special situation where 2 people update the same information in the DB simoultaneously.
 
-103)
+103) Amend views is an alternative to function-based style in polls.views.py.
 
+104) There are two generic views here: ListView and DetailView.  Respectively, those two views abstract the concepts of “display a list of objects” and “display a detail page for a particular type of object.”
 
+## Tests
 
+105) Test are required for apps which seem to grow.
+
+106) Being able to add a question whose date is 1 month ahead should fail but it doesn't fail in our current code. Fill *polls/tests.py* with a subclass whose name is QuestionModelTests. This class has a model named as test_was_published_recently_with_future_question.
+
+107) *polls/tests.py* is test file which comes by default with the app. The testing system automatically find tests in any file whose name begins with *test*. Write your classes polls/tests.py and methods
+
+108) To run tests,
+
+```
+python manage.py test polls
+```
+
+## The Django test client
+
+109) Django provides a test Client to simulate a user interacting with the code at the view level. We can use it in tests.py or even in the shell.
+
+110) Client is enabling us to simulate a user without invoking runserver 
+
+111) Run the following Python code just after `python manage.py shell`
+
+```python
+from django.test.utils import setup_test_environment
+setup_test_environment()
+from django.test import Client
+client = Client()
+response = client.get('/')
+response.status_code
+from django.urls import reverse
+response = client.get(reverse('polls:index'))
+response.status_code
+response.content
+response.context['latest_question_list']
+```
+
+112) reverse is a function imported via `from django.urls import reverse`. It enables ut to get a URL by a viewname or a callable object.
+
+```python
+from news import views
+
+path('archive/', views.archive, name='news-archive')
+
+# using the named URL
+reverse('news-archive')
+
+# passing a callable object
+# (This is discouraged because you can't reverse namespaced views this way.)
+from news import views
+reverse(views.archive)
+```
+
+113) Some advices for testing in Django:
+
+    - A separate TestClass for each model or view
+    - A separate test method for each set of conditions you want to test
+    - test method names that describe their function
 
 
 
