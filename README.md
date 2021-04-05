@@ -689,7 +689,61 @@ reverse(views.archive)
 
 116) static files should be located in *app_name/static/*. Django will look for static files there. In this app, create a folder named static under polls and put polls folder once again. Its directory should be something like this *polls/static/polls*:
 
-117)
+# Admin Form
+
+117) Add the following code to *polls/admin.py*. *extra = 3* means a question has 3 choices by default bt it may be increased by adding a new related choice.
+
+```python
+from django.contrib import admin
+
+from .models import Choice, Question
+
+
+class ChoiceInline(admin.TabularInline):
+    model = Choice
+    extra = 3
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['question_text']}),
+        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+    ]
+    inlines = [ChoiceInline]
+
+admin.site.register(Question, QuestionAdmin)
+```
+
+
+118) Use `class ChoiceInline(admin.StackedInline)` for row by row display and use `class ChoiceInline(admin.TabularInline)` for tabular display
+
+119) To amend the display of http://127.0.0.1:8000/admin/polls/question/, add `list_display = ('question_text', 'pub_date', 'was_published_recently')` to QuestionAdmin class in polls/admin.py
+
+120) You can assign attribute to methods of Classes in *model.py* like was_published_recently method of Question class in models.py . 
+
+```python
+was_published_recently.admin_order_field = 'pub_date'
+was_published_recently.boolean = True
+was_published_recently.short_description = 'Published recently?'
+```
+
+121) list_filter of QuestionAdmin offers a new card including some sorting operations in polls/admin.py .
+
+122) search_fields attribute of QuestionAdmin enables us to search questions on Admin page in polls/admin.py
+
+123) Create a folder named *templates* in root directory. Update 
+DIRS  key of dictionaries of TEMPLATES list in djangoproject/settings.py . Create a folder named *admin* in *templates* folder.
+
+124) Copy the content of django html file from **~/miniconda3/envs/django_tutorial_env/lib/python3.7/site-packages/django/contrib/admin/templates/admin/base_site.html** to ./templates/admin/ and change
+
+125) To override a template, do the same thing you did with base_site.html – copy it from the default directory into your custom directory, and make changes.
+
+126)
+
+
+
+
+
 
 
 
