@@ -734,11 +734,58 @@ was_published_recently.short_description = 'Published recently?'
 123) Create a folder named *templates* in root directory. Update 
 DIRS  key of dictionaries of TEMPLATES list in djangoproject/settings.py . Create a folder named *admin* in *templates* folder.
 
-124) Copy the content of django html file from **~/miniconda3/envs/django_tutorial_env/lib/python3.7/site-packages/django/contrib/admin/templates/admin/base_site.html** to ./templates/admin/ and change
+124) Copy the content of django html file from **~/miniconda3/envs/django_tutorial_env/lib/python3.7/site-packages/django/contrib/admin/templates/admin/base_site.html** to ./templates/admin/ and change.
 
 125) To override a template, do the same thing you did with base_site.html – copy it from the default directory into your custom directory, and make changes.
 
-126)
+# Reusability
+
+126)[Django Packages](https://djangopackages.org/)  is a directory of reusable apps, sites, tools, and more for your Django projects.
+
+127) For a directory(polls) to form a package, it must include a **__init__.py**
+
+128) Templates that belong to a particular application should be placed in that application’s template directory (e.g. polls/templates) rather than the project’s (templates).
+
+129) We are going to package our app(polls) to be used in the future in an another app.
+
+130) Packaging means putting our app in a format that is easily installable and usable.
+
+131) Django apps which thought to be packaged should be named as django-sth-sth etc. Also check the name of your app on pypi to eliminate conflicts.
+
+132) Put your app (polls) in a parent folder(django-polls).
+
+133) Create a README file named *django-polls/README.rst* and fill it.
+
+134) Create a LICENSE file named *django-polls/LICENSE* and fill it.
+
+135) Create the files *django-polls/setup.cfg* and *django-polls/setup.py* to elaborate on detail how to build and install the app.
+
+136) Only Python modules and packages are included in the package by default. To include additional files, we’ll need to create a MANIFEST.in file. Create
+
+137) Create a docs file as django-polls/docs and the following line to  django-polls/MANIFEST.in .
+
+```
+recursive-include docs *
+```
+
+138) In django-polls folder, run `python setup.py sdist` to create the package.
+
+139) To install the package
+
+```
+pip install --user django-polls/dist/django-polls-0.1.tar.gz
+```
+
+140) To uninstall the package
+
+```
+python -m pip uninstall django-polls
+```
+
+
+
+
+
 
 
 
