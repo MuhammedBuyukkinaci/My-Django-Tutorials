@@ -481,6 +481,8 @@ chown www-data mysite/
 chown www-data mysite/db.sqlite3
 ```
 
+74.1) It is common to have a separate settings.py file for production.
+
 ## New Notes
 
 75) The return value of a class inherited from models.Model is the return value of __str__ method.
@@ -782,7 +784,9 @@ pip install --user django-polls/dist/django-polls-0.1.tar.gz
 python -m pip uninstall django-polls
 ```
 
+# Additional Notes
 
+141) When Django doesnt't detect change in your static files, press CTRL + F5 to reload the page.
 
 
 
