@@ -788,6 +788,48 @@ python -m pip uninstall django-polls
 
 141) When Django doesnt't detect change in your static files, press CTRL + F5 to reload the page.
 
+142) There are 4 common application servers for Django:
+
+- Django Development Server: Used while developing django apps
+
+- Mod_WSGI: Used if your web server is apache.
+
+- uWSGI: Easy to set up. Hard to configure. Used with nginx commonly.
+
+- Gunicorn: Similar to uWSGI. Its performance outperforms. Used with nginx commonly.
+
+143) 2 most common web servers for django apps. Web server is the place where request are met first:
+
+- nginx: written in c, serving static files to accelerate our app, works also as load balancer
+
+- apache: similar to nginx but not so common as nginx
+
+143) Sending a url parameter from django template, use a django html code like below. blog is nampespace of project in projectname/urls.py; filtered_category is a url name in the APP called inside :
+
+```
+{% with articles.all|first as first_object %}
+    <a href="{% url 'blog:filtered_category' first_object.article_category.category_slug %}">
+    {{first_object.article_category}}
+    </a>
+{% endwith %}
+```
+
+```
+<a href="{% url 'blog:filtered_category' object.article_category.category_slug %}">
+        {{object.article_category}}
+</a>
+```
+
+144) blog is url namespace defined in PROJECT/urls.py, article is a url name defined in APP/urls. category_slug & pk are arguments defined in APP/urls.py. We are passing *object.article_category.category_slug* and *object.id* to these arguments. To send 2 arguments from django template to APP/urls.py, use a sample code below. 
+
+```
+<li>
+    <a href="{% url 'blog:article' category_slug=object.article_category.category_slug pk=object.id %}">
+    {{object.article_title}}
+    </a>
+</li>
+```
+
 
 
 
